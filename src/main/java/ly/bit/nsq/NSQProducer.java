@@ -13,31 +13,22 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.client.params.CookiePolicy;
-import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
-import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import z.z.w.util.http.HttpClientUtil;
+
 public class NSQProducer
 {
-	private static final Logger	log							= LoggerFactory.getLogger( NSQProducer.class );
+	private static final Logger	log			= LoggerFactory.getLogger( NSQProducer.class );
 	
-	private static final String	PUT_URL						= "/put?topic=";
-	private static final int	DEFAULT_SOCKET_TIMEOUT		= 2000;
-	private static final int	DEFAULT_CONNECTION_TIMEOUT	= 2000;
+	private static final String	PUT_URL		= "/put?topic=";
 	
 	private String				url;
 	private String				topic;
-	protected ExecutorService	executor					= Executors.newCachedThreadPool();
+	protected ExecutorService	executor	= Executors.newCachedThreadPool();
 	
 	protected HttpClient		httpclient;
 	
@@ -54,17 +45,7 @@ public class NSQProducer
 		this.topic = topic;
 		this.url = url + PUT_URL + topic;
 		
-		SchemeRegistry schemeRegistry = new SchemeRegistry();
-		schemeRegistry.register( new Scheme( "http", 80, PlainSocketFactory.getSocketFactory() ) );
-		
-		ClientConnectionManager cm = new PoolingClientConnectionManager( schemeRegistry );
-		
-		this.httpclient = new DefaultHttpClient( cm );
-		this.setSocketTimeout( DEFAULT_SOCKET_TIMEOUT );
-		this.setConnectionTimeout( DEFAULT_CONNECTION_TIMEOUT );
-		// see https://code.google.com/p/crawler4j/issues/detail?id=136: potentially works around a jvm crash at
-		// org.apache.http.impl.cookie.BestMatchSpec.formatCookies(Ljava/util/List;)Ljava/util/List
-		this.httpclient.getParams().setParameter( ClientPNames.COOKIE_POLICY, CookiePolicy.IGNORE_COOKIES );
+		httpclient = HttpClientUtil.getHttpClient();
 		
 		// register action for shutdown
 		Runtime.getRuntime().addShutdownHook( new Thread()
@@ -146,7 +127,6 @@ public class NSQProducer
 		{
 			try
 			{
-				log.debug( "{}", message );
 				NSQProducer.this.put( message );
 			}
 			catch ( NSQException e )
@@ -206,16 +186,6 @@ public class NSQProducer
 	public HttpClient getHttpclient()
 	{
 		return this.httpclient;
-	}
-	
-	public void setSocketTimeout( int timeout )
-	{
-		this.httpclient.getParams().setIntParameter( CoreConnectionPNames.SO_TIMEOUT, timeout );
-	}
-	
-	public void setConnectionTimeout( int timeout )
-	{
-		this.httpclient.getParams().setIntParameter( CoreConnectionPNames.CONNECTION_TIMEOUT, timeout );
 	}
 	
 }

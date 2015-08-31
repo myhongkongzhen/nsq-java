@@ -11,18 +11,9 @@ public class ExampleProducer
 		
 		for ( int i = 0; i < 100; i++ )
 		{
-			try
-			{
-				String message = "{\"foo\":\"bar_" + i + "\"}";
-				System.out.println( message );
-//				producer.put( message );
-				producer.putAsync( message );
-				Thread.sleep( 100 );
-			}
-			catch ( InterruptedException e )
-			{
-				e.printStackTrace();
-			}
+			String message = "{\"foo\":\"bar_" + i + "\"}";
+			System.out.println( message );
+			producer.putAsync( message );
 		}
 		
 		producer.shutdown();
