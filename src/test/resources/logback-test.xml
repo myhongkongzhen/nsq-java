@@ -1,14 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-            </Pattern>
-        </layout>
-    </appender>
-    <root level="debug">
-        <appender-ref ref="STDOUT"/>
-    </root>
+
+	<property name="ErrorStart"
+		value="-------------------------------------------------------Error Start--------------------------------------------------------" />
+	<property name="ErrorEnd"
+		value="--------------------------------------------------------Error End---------------------------------------------------------" />
+
+	<appender name="commonFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>target/logs/infoFile.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>target/logs/infoFile.log.%i</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>6</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>80MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss}]%5level - %m %n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 文件記錄錯誤日誌 ERROR 簡單記錄 -->
+	<appender name="errorFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>target/logs/errorFile.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>target/logs/errorFile.log.%i</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>3</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>100MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%n[%d{yyyy-MM-dd HH:mm:ss}] ${ErrorStart}%n [%t] %m [%logger:%L]%n[%d{yyyy-MM-dd HH:mm:ss}] ${ErrorEnd}%n%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>   
+		</filter>
+	</appender>
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%d{HH:mm:ss}][%5level]-【%m】[%logger:%L]-[%t]%n%n</pattern>
+		</layout>
+	</appender>
+	
+	<logger name="z.z.w" level="info"/>
+	<logger name="ly.bit" level="debug"/>
+<!-- 	<logger name="org.hibernate.tool.hbm2ddl" level="info"/> -->
+	<!-- mybatis sql 日誌 -->
+<!-- 	<logger name="z.z.w.test.dao" level="debug" /> -->
+ 
+	<root level="error">
+		<appender-ref ref="commonFile" />
+		<appender-ref ref="errorFile" />
+		<appender-ref ref="console" />
+	</root>
+
 </configuration>
+

@@ -12,28 +12,36 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BasicLookupd extends AbstractLookupd {
-	private static final Logger log = LoggerFactory.getLogger(AbstractLookupd.class);
-
+public class BasicLookupd extends AbstractLookupd
+{
+	private static final Logger	log	= LoggerFactory.getLogger( AbstractLookupd.class );
+	
 	@Override
-	public List<String> query(String topic) {
+	public List< String > query( String topic )
+	{
 		String urlString = this.addr + "/lookup?topic=" + topic;
 		URL url = null;
-		try {
-			url = new URL(urlString);
+		try
+		{
+			url = new URL( urlString );
 			InputStream is = url.openStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			return parseResponseForProducers(br);
-		} catch (MalformedURLException e) {
-			log.error("Malformed Lookupd URL: {}", urlString);
-		} catch (IOException e) {
-			log.error("Problem reading lookupd response: ", e);
+			BufferedReader br = new BufferedReader( new InputStreamReader( is ) );
+			return parseResponseForProducers( br );
 		}
-		return new LinkedList<String>();
+		catch ( MalformedURLException e )
+		{
+			log.error( "Malformed Lookupd URL: {}", urlString );
+		}
+		catch ( IOException e )
+		{
+			log.error( "Problem reading lookupd response: ", e );
+		}
+		return new LinkedList< String >();
 	}
-
-	public BasicLookupd(String addr){
+	
+	public BasicLookupd( String addr )
+	{
 		this.addr = addr;
 	}
-
+	
 }

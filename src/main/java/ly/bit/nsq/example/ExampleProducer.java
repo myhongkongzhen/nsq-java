@@ -1,27 +1,31 @@
 package ly.bit.nsq.example;
 
 import ly.bit.nsq.NSQProducer;
-import ly.bit.nsq.exceptions.NSQException;
 
-public class ExampleProducer {
-
-	public static void main(String... args){
-		NSQProducer producer = new NSQProducer("http://127.0.0.1:4151", "testTopic");
-
-		for(int i=0; i<100; i++) {
-			try {
-				String message = "{\"foo\":\"bar\"}";
-				System.out.println("Sending: " + message);
-				producer.put(message);
-				Thread.sleep(1000);
-			} catch (NSQException e) {
-				e.printStackTrace();
-				System.exit(1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+public class ExampleProducer
+{
+	
+	public static void main( String... args )
+	{
+		NSQProducer producer = new NSQProducer( "http://101.200.188.159:4151", "testTopit" );
+		
+		for ( int i = 0; i < 100; i++ )
+		{
+			try
+			{
+				String message = "{\"foo\":\"bar_" + i + "\"}";
+				System.out.println( message );
+//				producer.put( message );
+				producer.putAsync( message );
+				Thread.sleep( 100 );
+			}
+			catch ( InterruptedException e )
+			{
 				e.printStackTrace();
 			}
 		}
+		
+		producer.shutdown();
 	}
-
+	
 }

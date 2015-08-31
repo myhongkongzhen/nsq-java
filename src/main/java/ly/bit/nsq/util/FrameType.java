@@ -2,19 +2,22 @@ package ly.bit.nsq.util;
 
 import ly.bit.nsq.exceptions.NSQException;
 
-public enum FrameType {
+public enum FrameType
+{
 	FRAMETYPERESPONSE, FRAMETYPEERROR, FRAMETYPEMESSAGE;
 	
-	public static FrameType fromInt(int typeId) throws NSQException {
-		switch (typeId) {
-		case 0:
+	public static FrameType fromInt( int typeId ) throws NSQException
+	{
+		switch ( typeId )
+		{
+		case 0 :
 			return FrameType.FRAMETYPERESPONSE;
-		case 1:
+		case 1 :
 			return FrameType.FRAMETYPEERROR;
-		case 2:
+		case 2 :
 			return FrameType.FRAMETYPEMESSAGE;
-		default:
-			throw new NSQException("Invalid Frame Type");
+		default :
+			throw new NSQException( "Invalid Frame Type" );
 		}
 	}
 }

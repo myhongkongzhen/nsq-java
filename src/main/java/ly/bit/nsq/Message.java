@@ -1,9 +1,10 @@
 package ly.bit.nsq;
 
-
-public class Message {
+public class Message
+{
 	
-	public Message(byte[] id, byte[] body, long timestamp, short attempts, Connection conn) {
+	public Message( byte[ ] id, byte[ ] body, long timestamp, short attempts, Connection conn )
+	{
 		super();
 		this.id = id;
 		this.body = body;
@@ -12,47 +13,55 @@ public class Message {
 		this.conn = conn;
 	}
 	
-	private byte[] id;
-	private byte[] body;
-	private long timestamp;
-	private short attempts;
-	private Connection conn;
-
-	public byte[] getId() {
+	private byte[ ]		id;
+	private byte[ ]		body;
+	private long		timestamp;
+	private short		attempts;
+	private Connection	conn;
+	
+	public byte[ ] getId()
+	{
 		return id;
 	}
-
-	public void setId(byte[] id) {
+	
+	public void setId( byte[ ] id )
+	{
 		this.id = id;
 	}
-
-	public byte[] getBody() {
+	
+	public byte[ ] getBody()
+	{
 		return body;
 	}
-
-	public void setBody(byte[] body) {
+	
+	public void setBody( byte[ ] body )
+	{
 		this.body = body;
 	}
-
-	public long getTimestamp() {
+	
+	public long getTimestamp()
+	{
 		return timestamp;
 	}
-
-	public void setTimestamp(long timestamp) {
+	
+	public void setTimestamp( long timestamp )
+	{
 		this.timestamp = timestamp;
 	}
-
-	public short getAttempts() {
+	
+	public short getAttempts()
+	{
 		return attempts;
 	}
-
-	public void setAttempts(short attempts) {
+	
+	public void setAttempts( short attempts )
+	{
 		this.attempts = attempts;
 	}
-
-	public Connection getConn() {
+	
+	public Connection getConn()
+	{
 		return conn;
 	}
-
-
+	
 }
