@@ -1,6 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>z.z.w</groupId>
+		<artifactId>pro-module</artifactId>
+		<version>2015083110-SNAPSHOT</version>
+		<relativePath>../pro-module/pom.xml</relativePath>
+	</parent>
+
 	<groupId>ly.bit</groupId>
 	<artifactId>nsq</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -11,45 +19,24 @@
 		<dependency>
 			<groupId>z.z.w</groupId>
 			<artifactId>pro-common</artifactId>
-			<version>2015083110-SNAPSHOT</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.11</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.3.6</version>
 		</dependency>
 
 		<!-- Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<version>2.0.31-beta</version>
-		</dependency>
-
-		<!-- Transitive dependence on logback via slf4j, in order to view output 
-			during tests -->
-		<dependency> <!-- SLF4J implementation: logback -->
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>1.0.11</version>
-			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
@@ -68,6 +55,16 @@
 					<source>1.6</source>
 					<target>1.6</target>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
