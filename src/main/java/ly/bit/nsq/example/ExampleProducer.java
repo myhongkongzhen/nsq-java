@@ -7,7 +7,7 @@ public class ExampleProducer
 	
 	public static void main( String... args )
 	{
-		NSQProducer producer = new NSQProducer( "http://101.200.188.159:4151", "testTopit" );
+		NSQProducer producer = new NSQProducer( "http://101.200.188.159:4151", "native_nsq_api_pub_test" );
 		
 		for ( int i = 0; i < 100; i++ )
 		{
